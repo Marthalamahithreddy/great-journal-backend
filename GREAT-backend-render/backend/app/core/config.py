@@ -21,7 +21,7 @@ class Settings(BaseSettings):
     REDIS_URL: str = ""           # empty = Redis disabled, falls back to no-cache
 
     # ── CORS ──────────────────────────────────────────────────────────────
-    CORS_ORIGINS: List[str] = ["*"]   # Lock to your Netlify URL in production
+    CORS_ORIGINS: str = "*"  # Lock to your Netlify URL in production
 
     # ── App ───────────────────────────────────────────────────────────────
     APP_ENV:    str = "development"   # "production" in prod
