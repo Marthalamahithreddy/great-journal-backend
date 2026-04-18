@@ -1,0 +1,27 @@
+# render.yaml — deploy FastAPI backend FREE on Render.com
+# Render free tier: 512 MB RAM, auto-sleeps after 15 min inactivity
+# Pair with MongoDB Atlas M0 (free, 512 MB) + Upstash Redis (free 10 MB)
+
+services:
+  - type: web
+    name: great-journal-api
+    env: python
+    region: singapore         # closest to Manipal; change to ohio/oregon for US
+    plan: free
+    buildCommand: pip install -r requirements.txt
+    startCommand: uvicorn app.main:app --host 0.0.0.0 --port $PORT
+    envVars:
+      - key: MONGO_URI
+        sync: false           # set manually in Render dashboard
+      - key: MONGO_DB
+        value: great_journal
+      - key: REDIS_URL
+        sync: false           # optional — leave blank to disable Redis
+      - key: CORS_ORIGINS
+        value: '["https://your-netlify-site.netlify.app"]'
+      - key: APP_ENV
+        value: production
+      - key: SECRET_KEY
+        generateValue: true   # Render generates a random key automatically
+    healthCheckPath: /
+    autoDeploy: true
